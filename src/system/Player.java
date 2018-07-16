@@ -1,7 +1,10 @@
 package system;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Player {
@@ -11,6 +14,8 @@ public class Player {
 	private List<Character> num;
 	// 特殊技能の使用カウント
 	private int spCount;
+	// ヒストリー
+	private Map<List<Character>, String> history;
 	// 標準入力
 	public static Scanner scanner = new Scanner(System.in);
 
@@ -19,6 +24,7 @@ public class Player {
 		this.name = GameSystem.setName();
 		num = GameSystem.setNum();
 		spCount = 0;
+		history = new LinkedHashMap<>();
 	}
 
 	// 実際に数字を当てる動作
@@ -32,7 +38,10 @@ public class Player {
 			else if (player.getNum().contains(ans.get(i)))
 				byted++;
 		}
-		System.out.printf("%s さんは[ %dEAT, %dBYTE ]です\n", player.getName(), eat, byted);
+		String result = "[ " + eat + "EAT, " + byted + "BYTE ]";
+		System.out.printf("%s さんは%sです\n", name, result);
+		// ヒストリーに追加
+		history.put(ans, result);
 		if (eat == 3)
 			return true;
 		else
@@ -71,6 +80,16 @@ public class Player {
 				break;
 			}
 		}
+	}
+	
+	
+	// ヒストリー参照
+	public void showHistory() {
+		System.out.println("あなたの今までの推論です");
+		for(Map.Entry<List<Character>, String> entry: history.entrySet()) {
+			System.out.println(entry.getKey()+ " : " + entry.getValue());
+		}
+		System.out.println("==============================================");
 	}
 
 	// ゲッター

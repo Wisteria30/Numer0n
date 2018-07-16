@@ -38,7 +38,7 @@ public class Turn {
 		while (!gameFlg) {
 			player = changePlayer();
 			System.out.printf("%d ターン目:  %s\n", (count / 2) + 1, player.getName());
-			System.out.println("1:call,2:High&Low,3.Target");
+			System.out.println("1: call, 2: High&Low, 3: Target, 4: History");
 			System.out.print("行動を選択してください:");
 			select = Player.scanner.next();
 			if (select.equals("1")) {
@@ -47,7 +47,11 @@ public class Turn {
 				player.highlow(enemyPlayer());
 			} else if (select.equals("3") && player.getSpCount() == 0) {
 				player.target(enemyPlayer());
-			} else if (select.equals("2") || select.equals("3") && player.getSpCount() != 0) {
+			} else if (select.equals("4")) {
+				player.showHistory();
+				continue;
+			} 
+			else if (select.equals("2") || select.equals("3") && player.getSpCount() != 0) {
 				System.out.println("使用回数が残っていません");
 				continue;
 			} else
